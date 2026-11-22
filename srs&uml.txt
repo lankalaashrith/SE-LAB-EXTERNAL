@@ -1,0 +1,354 @@
+SRS DOCUMENT
+
+1. Introduction (Overview of the Software Requirements Specification document)
+   1.1 Purpose (Identifies the product, its version, and the scope of this SRS)
+   1.2 Document Conventions (Formatting standards, fonts, and priority notations used)
+   1.3 Intended Audience and Reading Suggestions (Target readers and recommended reading order)
+   1.4 Product Scope (Brief description of the software, its goals, and business alignment)
+   1.5 References (List of referenced documents, standards, or web links)
+
+2. Overall Description (High-level background and general factors affecting the product)
+   2.1 Product Perspective (Product context, origin, and relation to other systems)
+   2.2 Product Functions (Summary of major functions the software will perform)
+   2.3 User Classes and Characteristics (Target user groups, their technical skills, and privilege levels)
+   2.4 Operating Environment (Required hardware, OS versions, and coexisting software)
+   2.5 Design and Implementation Constraints (Technical, regulatory, or hardware limitations for developers)
+   2.6 User Documentation (List and formats of manuals, help guides, and tutorials)
+   2.7 Assumptions and Dependencies (Assumed project factors and external/third-party dependencies)
+
+3. External Interface Requirements (Inputs and outputs for communicating with users, hardware, and software)
+   3.1 User Interfaces (GUI standards, screen layouts, buttons, and visual mockups)
+   3.2 Hardware Interfaces (Supported devices, physical connections, and hardware protocols)
+   3.3 Software Interfaces (Connections and data exchange with databases, OS, and external tools)
+   3.4 Communications Interfaces (Network protocols, web browsers, email, and data transfer rules)
+
+4. System Features (Functional requirements organized by major system features)
+   4.x System Feature Name (Short title of a specific feature; repeat for each feature)
+       4.x.1 Description and Priority (Brief summary of the feature and its High/Medium/Low priority)
+       4.x.2 Stimulus/Response Sequences (Step-by-step user actions and corresponding system responses)
+       4.x.3 Functional Requirements (Detailed, uniquely labeled software capabilities required for this feature)
+
+5. Other Nonfunctional Requirements (System quality attributes, constraints, and operating rules)
+   5.1 Performance Requirements (Speed, response times, throughput, and user load limits)
+   5.2 Safety Requirements (Safeguards to prevent physical harm, damage, or data loss)
+   5.3 Security Requirements (Data privacy, encryption, authentication, and access control)
+   5.4 Software Quality Attributes (Usability, reliability, maintainability, availability, and portability)
+   5.5 Business Rules (Operating principles and role-based permissions governing the system)
+
+USE CASE DIAGRAM
+
+1. DEFINITION
+   Behavioral UML diagram showing WHAT the system does (functional 
+   requirements) and how external users (Actors) interact with it[cite: 32, 38, 40].
+
+2. SYMBOLS
+   - System Boundary (Rectangle): Holds all Use Cases inside; Actors stay outside[cite: 43].
+   - Actor (Stick Figure): Primary users on LEFT, external systems on RIGHT[cite: 43].
+   - Use Case (Oval): System actions written as "Verb + Noun" (e.g., Book Slot)[cite: 40, 42, 43].
+   - Association (Solid Line —): Links Actor to Use Case (NO arrowheads)[cite: 42, 43].
+   - <<include>> (Dashed Arrow - - ->): Compulsory sub-step (Main ---> Sub)[cite: 42, 43].
+   - <<extend>> (Dashed Arrow - - ->): Optional action (Optional ---> Main)[cite: 42, 43].
+
+3. HOW TO SCAN PROBLEM STATEMENT (PS)
+   - NOUNS doing actions -> Actors (e.g., Patient, Doctor, Admin)[cite: 40].
+   - VERBS / actions -> Use Case Ovals (e.g., Register, Search, Pay)[cite: 40, 42].
+   - Ignore speed/security lines (those are for SRS, not Use Case).
+
+4. STARUML STEPS
+   Model -> Add Diagram -> Use Case Diagram -> Drag Subject box -> 
+   Place Actors outside -> Place Ovals inside -> Connect with Association, 
+   Include, and Extend[cite: 43].
+
+EX: HMS
++----------------------------------------------------------+
+             |            Smart Hospital Management System              |
+             |                                                          |
+   O         |     ( Register )                         ( Login )       |
+  /|\ -------|--->                                         ^            |
+  / \        |                                             |            |
+Patient      |     ( Search Doctor )                 <<include>>        |
+  |  |       |                                             |            |
+  |  +-------|---> ( Book Appointment ) -------------------+            |
+  |          |            ^                                             |
+  |          |            |                                             |
+  |          |        <<extend>>                                        |
+  |          |            |                                             |
+  |          |     ( Cancel Appointment )                               |
+  |          |                                                          |
+  +----------|---> ( View Reports & E-Prescription )                    |
+             |                                                          |
+             |                                                          |
+   O         |     ( View Daily Schedule )                              |
+  /|\ -------|--->                                                      |
+  / \        |                                                          |
+Doctor       |     ( Update Diagnosis )                                 |
+  |  |       |                                                          |
+  |  +-------|--->                                                      |
+  |          |                                                          |
+  +----------|---> ( Issue E-Prescription )                             |
+             |                                                          |
+             |                                                          |
+   O         |     ( Manage Doctor Schedule )                           |
+  /|\ -------|--->                                                      |
+  / \        |                                                          |
+Receptionist |     ( Register Walk-in Patient )                         |
+  |  |       |                                                          |
+  |  +-------|--->                                                      |
+  |          |                                                          |
+  +----------|---> ( Generate Billing Invoice ) ------------------------+------- O
+             |                                                          |       /|\
+             +----------------------------------------------------------+       / \
+                                                                           Payment Gateway
+
+ACTIVITY DIAGRAM
+
+1. DEFINITION
+   Behavioral UML diagram showing the step-by-step FLOW OF CONTROL 
+   (workflow) in a system, including sequential, conditional, and 
+   parallel activities[cite: 31, 38, 41].
+
+2. SYMBOLS
+   - Initial Node (Solid Black Circle ●): Starting point of workflow[cite: 51].
+   - Action (Rounded Rectangle): A single step/task (e.g., Search Doctor)[cite: 42, 51].
+   - Control Flow (Solid Arrow →): Direction from one step to the next[cite: 42, 51].
+   - Decision / Merge (Diamond ◇): If-Else branching[cite: 42, 51]. Put [guard conditions] 
+     in square brackets on outgoing arrows (e.g., [Valid], [Invalid])[cite: 51].
+   - Fork / Join (Thick Black Bar ▬): Splits 1 flow into parallel flows 
+     (Fork) and merges parallel flows back into 1 (Join)[cite: 42].
+   - Activity Final (Bullseye ◉): End of the entire workflow[cite: 51].
+
+3. HOW TO SCAN PROBLEM STATEMENT (PS)
+   - Pick the main end-to-end process (e.g., Login -> Search -> Book -> Pay)[cite: 31, 50, 51].
+   - List actions in chronological order (Top to Bottom)[cite: 31, 50].
+   - Wherever "if / valid / available" appears -> Add Decision Diamond ◇[cite: 50, 51].
+   - Wherever two actions happen at the same time -> Add Fork & Join ▬[cite: 42].
+
+4. STARUML STEPS
+   Model -> Add Diagram -> Activity Diagram -> Place Initial Node ● -> 
+   Drag Actions, Decisions (add Guard text in Properties), and Fork/Join 
+   bars -> Connect with Control Flow arrows -> End with Activity Final ◉[cite: 42, 51].
+
+EX: HMS
+
+(●) Initial Node
+                      │
+                      ▼
+             [ Open SHMS Portal ]
+                      │
+                      ▼
+                     ◇ ────[New Patient]────► [ Register Account ]
+                      │                                │
+              [Existing Patient]                       │
+                      │                                │
+                      ▼                                ▼
+                     ◇ ◄───────────────────────────────┘
+                      │
+                      ▼
+        ┌──► [ Enter Login Credentials ]
+        │             │
+        │             ▼
+        └──[Invalid]─ ◇
+                      │
+                   [Valid]
+                      │
+                      ▼
+        ┌──► [ Search Doctor & Select Slot ]
+        │             │
+        │             ▼
+  [Unavailable] ───── ◇
+                      │
+                 [Available]
+                      │
+                      ▼
+            [ Confirm Appointment ]
+                      │
+                      ▼
+         ════════════▬════════════   <-- Fork (Parallel Actions)
+          │                     │
+          ▼                     ▼
+  [ Send SMS/Email ]   [ Update Doctor Schedule ]
+          │                     │
+          ▼                     ▼
+         ════════════▬════════════   <-- Join
+                      │
+                      ▼
+     [ Update Diagnosis & Issue E-Prescription ]
+                      │
+                      ▼
+       [ Generate Billing Invoice & Pay ]
+                      │
+                      ▼
+                     (◉) Activity Final
+
+SEQUENCE DIAGRAM:
+========================================================================
+                    1. SEQUENCE DIAGRAM - BASICS
+========================================================================
+* Definition:
+  A Sequence Diagram is a behavioral interaction diagram that depicts how 
+  objects or components interact with each other in a SEQUENTIAL (time) 
+  order[cite: 32, 38, 40, 47]. Time flows strictly from TOP to BOTTOM[cite: 47].
+
+* Core Building Blocks (Symbols):
+  1. Lifeline (Header Box/Stick Figure + Vertical Dashed Line ┆):
+     - Represents a participant (Actor on the far left, System objects/DB 
+       to the right)[cite: 47].
+     - The dashed line represents the object's existence over time[cite: 47].
+
+  2. Activation Bar (Thin Vertical Rectangle ▯ on Lifeline):
+     - Shows the exact duration when an object is active/processing a task[cite: 47].
+
+  3. Synchronous Message (Solid Arrow ───►):
+     - A request or method call sent from one object to another[cite: 47].
+     - Always number messages in order: 1:, 1.1:, 2:, 2.1:[cite: 47].
+
+  4. Reply / Return Message (Dashed Arrow <- - -):
+     - The response or data returned back to the caller[cite: 47].
+
+  5. Self-Message (Loop Arrow back to Same Lifeline):
+     - Internal processing within the same object (e.g., 5: Get items / Validate)[cite: 47].
+
+========================================================================
+      2. HOW TO IDENTIFY ELEMENTS FROM A PROBLEM STATEMENT (PS)
+========================================================================
+Step 1: Pick ONE Core End-to-End Scenario
+- Don't try to draw every feature at once[cite: 40]. Pick the main flow 
+  (e.g., for Hospital PS: "Login -> Search Doctor -> Book Appointment")[cite: 47].
+
+Step 2: Identify Lifelines (Left to Right Order)
+- Column 1 (Far Left): Primary Actor (e.g., Patient)[cite: 47].
+- Column 2: Frontend / UI (e.g., SHMS Web Portal)[cite: 47].
+- Column 3: Backend / Controller (e.g., Appointment Server)[cite: 47].
+- Column 4 (Far Right): Storage / External API (e.g., Database / Payment)[cite: 47].
+
+Step 3: Trace Request & Reply Pairs (Top to Bottom)
+- Every user action goes Left-to-Right (Solid Arrow) and brings back a 
+  result Right-to-Left (Dashed Arrow)[cite: 47]:
+  * User enters data -> UI forwards to Server -> Server queries DB -> 
+    DB returns data -> Server confirms to UI -> UI displays to User[cite: 47].
+
+========================================================================
+               3. HOW TO DRAW IN STARUML (STEP-BY-STEP)
+========================================================================
+1. Open StarUML -> Model -> Add Diagram -> Sequence Diagram.
+2. From Left Toolbox (Sequence section):
+   - Drag "Lifeline" boxes horizontally across the top (Actor on left, 
+     Portal, Server, Database towards right)[cite: 47].
+   - Select "Message" (solid arrow) and drag from sender lifeline to 
+     receiver lifeline (Activation bars appear automatically)[cite: 47].
+   - Select "Reply Message" (dashed arrow) for return responses[cite: 47].
+   - Keep moving downward for each next step so time order stays clear[cite: 47].
+
+========================================================================
+          4. TEXT DIAGRAM REPRESENTATION (SHMS EXAMPLE)
+========================================================================
+  (Patient)         [SHMS Web Portal]     [Appointment Server]      [Database]
+      |                     |                      |                    |
+      | 1: Enter Login      |                      |                    |
+      |-------------------->| 1.1: Verify User     |                    |
+      |                     |--------------------->| 1.2: Query User    |
+      |                     |                      |------------------->|
+      |                     |                      | 1.3: User Valid    |
+      |                     | 1.4: Login Success   |< - - - - - - - - - |
+      | 1.5: Show Dashboard |< - - - - - - - - - - |                    |
+      |< - - - - - - - - - -|                      |                    |
+      |                     |                      |                    |
+      | 2: Search Doctor    |                      |                    |
+      |-------------------->| 2.1: Fetch Doctors   |                    |
+      |                     |--------------------->| 2.2: Select Slots  |
+      |                     |                      |------------------->|
+      |                     |                      | 2.3: Doctor List   |
+      |                     | 2.4: Return List     |< - - - - - - - - - |
+      | 2.5: Display List   |< - - - - - - - - - - |                    |
+      |< - - - - - - - - - -|                      |                    |
+      |                     |                      |                    |
+      | 3: Book Appointment |                      |                    |
+      |-------------------->| 3.1: Confirm Slot    |                    |
+      |                     |--------------------->| 3.2: Save Booking  |
+      |                     |                      |------------------->|
+      |                     |                      | 3.3: Saved         |
+      |                     | 3.4: Appointment ID  |< - - - - - - - - - |
+      | 3.5: Confirmation   |< - - - - - - - - - - |                    |
+      |< - - - - - - - - - -|                      |                    |
+
+CLASS DIAGRAM
+========================================================================
+                    1. CLASS DIAGRAM - QUICK SUMMARY
+========================================================================
+* Definition:
+  A structural UML diagram showing the static blueprint of a system: 
+  its Classes, Attributes, Methods, and Relationships[cite: 32, 38].
+
+* How to Scan Problem Statement (PS):
+  1. NOUNS (Entities/Data) -> Classes (e.g., User, Patient, Doctor, 
+     Appointment, Prescription, Bill)[cite: 49].
+  2. PROPERTIES of each Noun -> Attributes (e.g., id, name, date, fee)[cite: 49].
+  3. ACTIONS each Noun performs -> Methods (e.g., login(), bookSlot())[cite: 49].
+  4. CONNECTIONS -> Inheritance (User <|--- Patient/Doctor) & Associations 
+     with Multiplicity (1 to 1..*)[cite: 49].
+
+* StarUML Steps:
+  Model -> Add Diagram -> Class Diagram -> Drag "Class" boxes -> 
+  Right-click Class -> Add Attribute / Add Operation -> Connect with 
+  Generalization, Association, Aggregation, or Dependency[cite: 49].
+
+========================================================================
+          2. TEXT DIAGRAM REPRESENTATION (SHMS EXAMPLE)
+========================================================================
+
+                   +-----------------------+
+                   |         User          |
+                   +-----------------------+
+                   | - userID: String      |
+                   | - name: String        |
+                   | - email: String       |
+                   | - password: String    |
+                   +-----------------------+
+                   | + register(): boolean |
+                   | + login(): boolean    |
+                   | + logout(): void      |
+                   +-----------------------+
+                               ^
+                               | (Inheritance)
+               +---------------+---------------+
+               |                               |
+  +-------------------------+     +-------------------------+
+  |         Patient         |     |         Doctor          |
+  +-------------------------+     +-------------------------+
+  | - patientID: String     |     | - doctorID: String      |
+  | - age: int              |     | - specialization: String|
+  | - bloodGroup: String    |     | - availableSlots: String|
+  +-------------------------+     +-------------------------+
+  | + searchDoctor(): List  |     | + viewSchedule(): List  |
+  | + bookAppointment()     |     | + updateDiagnosis()     |
+  | + viewReports(): List   |     | + issuePrescription()   |
+  +-------------------------+     +-------------------------+
+               | 1                             | 1
+               | books                         | attends
+               | 0..*                          | 0..*
+               v                               v
+         +-------------------------------------------+
+         |                Appointment                |
+         +-------------------------------------------+
+         | - appointmentID: String                   |
+         | - date: Date                              |
+         | - timeSlot: String                        |
+         | - status: String                          |
+         +-------------------------------------------+
+         | + confirmSlot(): boolean                  |
+         | + cancelSlot(): boolean                   |
+         +-------------------------------------------+
+               | 1                             | 1
+               | generates                     | billed_via
+               | 0..1                          | 1
+               v                               v
+  +-------------------------+     +-------------------------+
+  |      Prescription       |     |      BillingInvoice     |
+  +-------------------------+     +-------------------------+
+  | - prescriptionID: String|     | - invoiceID: String     |
+  | - diagnosis: String     |     | - amount: double        |
+  | - medicines: String     |     | - paymentStatus: String |
+  +-------------------------+     +-------------------------+
+  | + downloadPDF(): File   |     | + generateBill(): void  |
+  +-------------------------+     | + processPayment(): bool|
+                                  +-------------------------+	
