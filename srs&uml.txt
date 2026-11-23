@@ -351,4 +351,101 @@ CLASS DIAGRAM
   +-------------------------+     +-------------------------+
   | + downloadPDF(): File   |     | + generateBill(): void  |
   +-------------------------+     | + processPayment(): bool|
-                                  +-------------------------+	
+                                  +-------------------------+
+
+COMPONENT DIAGRAM
+========================================================================
+1. COMPONENT DIAGRAM - BASICS
+========================================================================
+- Definition:
+  A structural UML diagram that shows the high-level software architecture:
+  how a system is broken into modular, replaceable software COMPONENTS 
+  (services, UIs, databases, APIs) and how they connect via interfaces.
+
+- Core Building Blocks (Symbols):
+  1. Component (Rectangle with component icon [||] or <<component>>):
+     - A modular, deployable part of the system (e.g., Auth Service, 
+       Web Portal, Database).
+  2. Provided Interface ("Lollipop"  ───O ):
+     - Services or APIs that a component EXPOSES/OFFERS to others.
+  3. Required Interface ("Socket"   ───(  ):
+     - Services or APIs that a component NEEDS/CONSUMES from others.
+     - Ball-and-Socket joint (───O)───): Connects a provider to a consumer.
+  4. Dependency (Dashed Arrow - - ->):
+     - Shows that one component relies on another to function.
+  5. Port (Small Square □ on Component border):
+     - Interaction point where interfaces attach to a component.
+
+========================================================================
+2. HOW TO SCAN PROBLEM STATEMENT (PS)
+========================================================================
+Step 1: Identify Major Subsystems / Layers
+- Group related features into logical modules:
+  * Presentation Layer -> Web Portal, Mobile App
+  * Business Logic / Services -> Auth, Appointment, Billing, EHR/Pharmacy
+  * Data & External Systems -> Hospital Database, Payment Gateway, SMS/Email
+
+Step 2: Define Provided & Required Interfaces
+- Ask: "What API does this module offer?" -> Provided Interface (───O)
+- Ask: "What external service/DB does it call?" -> Required Interface (───()
+
+Step 3: Wire Dependencies
+- Connect Frontend -> Backend Services -> Database / External APIs.
+
+========================================================================
+3. STARUML STEPS
+========================================================================
+1. Open StarUML -> Model -> Add Diagram -> Component Diagram.
+2. From Left Toolbox (Component section):
+   - Drag "Component" boxes onto the canvas and name each module.
+   - Select "Interface Realization" (───O) to attach provided APIs.
+   - Select "Dependency" (- - ->) or "Interface Usage" (───() to link 
+     dependent components.
+
+========================================================================
+4. TEXT DIAGRAM REPRESENTATION (SHMS EXAMPLE)
+========================================================================
+
+  +-----------------------------------+   +-----------------------------------+
+  | <<component>>                     |   | <<component>>                     |
+  |        SHMS Web Portal            |   |        SHMS Mobile App            |
+  +-----------------------------------+   +-----------------------------------+
+             |             |                         |             |
+             | (           | (                       | (           | (
+             v             v                         v             v
+             O             O                         O             O
+   +-------------------+ +-------------------+ +-------------------+ +-------------------+
+   |   IAuthService    | |IAppointmentService| |  IBillingService  | |   IEHRService     |
+   +-------------------+ +-------------------+ +-------------------+ +-------------------+
+             |                     |                     |                     |
+             v                     v                     v                     v
+  +---------------------+ +---------------------+ +---------------------+ +---------------------+
+  | <<component>>       | | <<component>>       | | <<component>>       | | <<component>>       |
+  | Authentication &    | | Appointment &       | | Billing &           | | Electronic Health   |
+  | User Management     | | Scheduling Engine   | | Invoice Service     | | Records (EHR)       |
+  +---------------------+ +---------------------+ +---------------------+ +---------------------+
+             |                  |         |                  |                 |
+             |                  |         | (                | (               |
+             |                  |         v                  v                 |
+             |                  |         O                  O                 |
+             |                  | +---------------+ +-----------------+        |
+             |                  | | INotification | | IPaymentGateway |        |
+             |                  | +---------------+ +-----------------+        |
+             |                  |         |                  |                 |
+             |                  |         v                  v                 |
+             |                  |  +-------------+   +---------------+         |
+             |                  |  |<<component>>|   | <<component>> |         |
+             |                  |  | SMS/Email   |   | External      |         |
+             |                  |  | Gateway     |   | Payment API   |         |
+             |                  |  +-------------+   +---------------+         |
+             |                  |                                              |
+             +------------------+----------------------+-----------------------+
+                                                       |
+                                                       | ( (IDatabaseAccess)
+                                                       v
+                                                       O
+                                      +---------------------------------+
+                                      | <<component>>                   |
+                                      |   Hospital Central Database     |
+                                      |   (Patients, Doctors, Records)  |
+                                      +---------------------------------+	
