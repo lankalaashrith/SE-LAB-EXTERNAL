@@ -1,3 +1,109 @@
+========================================================================
+                         GIT COMMANDS CHEAT SHEET
+========================================================================
+
+1. SETUP & VERSION CHECK
+- git --version
+  Checks if Git is installed and displays the current version.
+- git config --global user.name "Your Name"
+  git config --global user.email "you@example.com"
+  Sets your author name and email globally for all future commits.
+- git config --list
+  Displays all configured Git settings for the current user.
+
+2. REPOSITORY CREATION & REMOTE MANAGEMENT
+- git init
+  Initializes a normal local directory as a new Git repository.
+- git clone <url>
+  Downloads a complete copy of an existing remote repository locally.
+- git remote add origin <url>
+  Links your local repository to a remote repository under 'origin'.
+- git remote -v
+  Lists all remote repository URLs connected to your local repository.
+- git remote show origin
+  Displays detailed information about the remote repository.
+- git remote rename origin upstream
+  Renames an existing remote alias (e.g., from 'origin' to 'upstream').
+- git remote set-url origin <new_url>
+  Updates the linked remote URL when a repository address changes.
+- git remote remove origin
+  Disconnects and removes a remote repository from local configuration.
+
+3. STAGING & COMMITTING (LOCAL SAVE)
+- git status
+  Displays modified, untracked, and staged files in the working directory.
+- git add <file>  /  git add .
+  Moves a specific file (<file>) or all changes (.) to the staging area.
+- git commit -m "message"
+  Records staged changes permanently into the local repository history.
+
+4. SYNCING WITH REMOTE (PUSH, FETCH, PULL, REBASE)
+- git push origin main
+  Uploads local commits to the remote repository's 'main' branch.
+- git push --set-upstream origin feature-branch
+  Pushes a new branch for the first time and sets up a tracking link.
+- git fetch origin  /  git fetch origin <branch>
+  Downloads latest remote changes without merging them into local code.
+- git pull origin main
+  Fetches latest remote updates and merges them into your local branch.
+- git fetch origin  +  git rebase origin/main
+  Reapplies local commits on top of latest remote commits linearly.
+
+5. BRANCHING, MERGING & CLEANUP
+- git branch  /  git branch -a  /  git branch -r
+  Lists local branches, all branches (-a), or remote branches (-r).
+- git branch <name>
+  Creates a new branch without switching to it.
+- git checkout <branch>  /  git checkout -b <new-branch>
+  Switches to an existing branch; -b creates and switches immediately.
+- git merge <branch-name>
+  Integrates changes from the specified branch into the current branch.
+- git branch --merged
+  Lists branches that have already been merged into the current branch.
+- git branch -d <branch>  /  git branch -D <branch>
+  Deletes a merged branch (-d) or force-deletes an unmerged branch (-D).
+  (Delete multiple at once: git branch -d branch1 branch2 branch3)
+- git remote prune origin
+  Removes stale local references to branches deleted on the remote.
+
+6. VIEWING HISTORY & TRACKING LINES
+- git log  /  git log --oneline
+  Displays commit history (--oneline shows a compact one-line summary).
+- git diff
+  Shows line-by-line differences in unstaged files vs. the last commit.
+- git show <commit>
+  Displays metadata and exact line changes for a specific commit hash.
+- git blame <filename>
+  Shows who last modified each line of a file and in which commit.
+
+7. UNDOING MISTAKES, RECOVERY & STASH
+- git restore <filename>
+  Discards unstaged local edits and reverts the file to the last commit.
+- git reset <file>  /  git reset --hard
+  Unstages a file without losing edits; --hard wipes all uncommitted work.
+- git commit --amend -m "New message"
+  Edits the commit message of the most recent unpushed commit.
+- git revert <commit>
+  Creates a new commit that safely undoes changes from a past commit.
+- git reflog  +  git checkout -b <branch> <commit_hash>
+  Recovers a deleted branch using its last commit hash from the reflog.
+- git filter-branch --force --index-filter \
+  "git rm --cached --ignore-unmatch secrets.txt" \
+  --prune-empty --tag-name-filter cat -- --all
+  Permanently removes a sensitive file from the entire commit history.
+- git stash  &  git stash apply
+  Temporarily saves uncommitted changes (stash) and restores them (apply).
+
+8. .GITIGNORE & MANUAL MERGE CONFLICT RESOLUTION
+- .gitignore File
+  Create with 'touch .gitignore' and add patterns (e.g., *.log, temp/, 
+  secret_file.txt) so Git ignores those files and keeps them untracked.
+- Resolving Merge Conflicts
+  Open the conflicted file, keep the desired code, remove all conflict 
+  markers (<<<<<<<, =======, >>>>>>>), then run 'git add <file>' and 
+  'git commit' to complete the merge.
+========================================================================
+
 maven java
 
 Phase 1: Eclipse JDK One-Time Setup (Do This Before Creating the Project!)
